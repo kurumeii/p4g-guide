@@ -13,11 +13,30 @@
     }
   },
   "formatter": {
-    "include": ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.json", "**/*.jsonc"],
+    "include": [
+      "**/*.js",
+      "**/*.ts",
+      "**/*.jsx",
+      "**/*.tsx",
+      "**/*.json",
+      "**/*.jsonc"
+    ],
     "enabled": true,
     "formatWithErrors": true,
     "lineEnding": "crlf",
     "indentStyle": "space"
+  },
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded",
+      "quoteStyle": "single",
+      "trailingComma": "es5"
+    }
+  },
+  "json": {
+    "parser": {
+      "allowComments": true
+    }
   },
   "vcs": {
     "enabled": true,

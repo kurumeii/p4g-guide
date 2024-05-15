@@ -1,10 +1,23 @@
-import { ChevronRightIcon, CircleHelpIcon, Home, UsersIcon } from 'lucide-react'
+import {
+  IconBrandFacebook,
+  IconBrandGithub,
+  IconBrandTwitter,
+  IconChevronRight,
+  IconHeart,
+  IconHelp,
+  IconHome,
+  IconUsers,
+} from '@tabler/icons-react'
 
 const Icons = {
-  HomePage: Home,
-  Answers: CircleHelpIcon,
-  SocialLinks: UsersIcon,
-  ChevronRight: ChevronRightIcon,
+  HomePage: IconHome,
+  Answers: IconHelp,
+  SocialLinks: IconUsers,
+  ChevronRight: IconChevronRight,
+  Heart: IconHeart,
+  GitHub: IconBrandGithub,
+  Twitter: IconBrandTwitter,
+  Facebook: IconBrandFacebook,
 }
 
 export default Icons
