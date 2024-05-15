@@ -1,11 +1,10 @@
 import Logo from "@/assets/navbar-logo.png";
 import Icons from "@/components/icons";
-import { TITLE } from "@/configs/constants";
-import { styles } from "@/styles/root/root.css";
+import { styles } from "@/styles/root/index.css";
 import { AppShell, Burger, Container, Image, NavLink } from "@mantine/core";
-import { useDisclosure, useDocumentTitle } from "@mantine/hooks";
+import { useDisclosure } from "@mantine/hooks";
 import { useCallback } from "react";
-import { Link, Outlet, useMatch } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { isArray } from "remeda";
 
 type SidebarItem = {
@@ -15,8 +14,9 @@ type SidebarItem = {
   children?: SidebarItem[];
 };
 
-export default function Root() {
+export default function MainLayout() {
   const [isOpened, { toggle }] = useDisclosure();
+  const { pathname } = useLocation();
   const sideBarContents: SidebarItem[] = [
     {
       href: "/introduction",
@@ -31,6 +31,10 @@ export default function Root() {
         {
           href: "/answers/exam",
           label: "Exam",
+        },
+        {
+          href: '/answers/quests',
+          label: 'Quests',
         },
         {
           href: "/answers/boxed-lunches",
@@ -50,39 +54,44 @@ export default function Root() {
   ];
 
   //#region Functions
-  const renderTree = useCallback((item: SidebarItem) => {
-    const hasChildren = isArray(item?.children);
-    const isMatched = !!useMatch(item.href);
-    const isChildActive = hasChildren
-      ? item.children?.some((child) => !!useMatch(child.href))
-      : false;
-    return (
-      <NavLink
-        key={`navbar-item-${item.label}`}
-        to={hasChildren ? "#" : item.href}
-        component={Link}
-        variant={hasChildren ? "filled" : "light"}
-        active={isMatched || isChildActive}
-        defaultOpened={isMatched || isChildActive}
-        label={item.label}
-        leftSection={item.icon}
-      >
-        {hasChildren && item.children?.map(renderTree)}
-      </NavLink>
-    );
-  }, []);
+  const renderTree = useCallback(
+    (item: SidebarItem) => {
+      const hasChildren = isArray(item?.children);
+      const isMatched = item.href === pathname;
+      const isChildActive = item.children?.some(
+        (child) => child.href === pathname,
+      );
+      return (
+        <NavLink
+          key={`navbar-item-${item.label}`}
+          to={hasChildren ? "#" : item.href}
+          component={Link}
+          variant={hasChildren ? "filled" : "light"}
+          active={isMatched || isChildActive}
+          defaultOpened={isMatched || isChildActive}
+          label={item.label}
+          leftSection={item.icon}
+        >
+          {hasChildren && item.children?.map(renderTree)}
+        </NavLink>
+      );
+    },
+    [pathname],
+  );
+  //#endregion
 
   //#region Effects
-
-  useDocumentTitle(TITLE);
-
   //#endregion
+
   return (
     <AppShell
       header={{ height: 100 }}
       navbar={{
         width: 250,
-        breakpoint: "md",
+        breakpoint: "lg",
+        collapsed: {
+          mobile: !isOpened,
+        },
       }}
     >
       <AppShell.Header px="md" className={styles.logoContainer}>
@@ -91,7 +100,7 @@ export default function Root() {
           aria-label="Toggle sidebar"
           opened={isOpened}
           onClick={toggle}
-          hiddenFrom="sm"
+          hiddenFrom="lg"
         />
       </AppShell.Header>
 

@@ -1,9 +1,0 @@
-{
-  "version": "0.2",
-  "ignorePaths": [],
-  "dictionaryDefinitions": [],
-  "dictionaries": [],
-  "words": ["fontsource", "mantine", "nprogress", "remeda", "tanstack"],
-  "ignoreWords": [],
-  "import": []
-}

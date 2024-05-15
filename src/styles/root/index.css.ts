@@ -7,7 +7,7 @@ export const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     '@media': {
-      [`screen and (max-width: ${themeVars.breakpoints.sm})`]: {
+      [`screen and (max-width: ${themeVars.breakpoints.lg})`]: {
         justifyContent: 'space-between',
       },
     },

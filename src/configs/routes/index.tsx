@@ -1,44 +1,43 @@
-import ExamPage from "@/pages/answers/exam"
-import IntroductionPage from "@/pages/introduction"
-import NothingFoundPage from "@/pages/not-found"
-import Root from "@/pages/root"
-import { Navigate, createBrowserRouter } from "react-router-dom"
+import MainLayout from "@/components/layouts";
+import ExamPage from "@/pages/answers/exam";
+import IntroductionPage from "@/pages/introduction";
+import NothingFoundPage from "@/pages/not-found";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Root />,
+    path: "/",
+    element: <MainLayout />,
     children: [
       {
         index: true,
-        element: (
-          <Navigate
-            to='/introduction'
-            replace
-          />
-        ),
+        element: <Navigate to="introduction" replace />,
       },
       {
-        path: '/introduction',
+        path: "introduction",
         element: <IntroductionPage />,
       },
       {
-        path: '/answers',
+        path: "answers",
         children: [
           {
             index: true,
-            element: <Navigate to='exam' />,
+            element: <Navigate to="exam" replace />,
           },
           {
-            path: 'exam',
+            path: "exam",
             element: <ExamPage />,
           },
           {
-            path: 'boxed-lunches',
+            path: "quests",
+            element: <div>Quests</div>,
+          },
+          {
+            path: "boxed-lunches",
             element: <div>Boxed lunches</div>,
           },
           {
-            path: 'midnight-trivia-quiz',
+            path: "midnight-trivia-quiz",
             element: <div>Midnight trivia quiz</div>,
           },
         ],
@@ -46,7 +45,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: '*',
+    path: "*",
     element: <NothingFoundPage />,
   },
-])
+]);
