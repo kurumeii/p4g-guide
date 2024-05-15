@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "baseUrl": "./src",
+    "checkJs": true,
+    "paths": {
+      "@/*": ["./*"],
+    }
+  },
+  "include": ["vite.config.ts"]
+}

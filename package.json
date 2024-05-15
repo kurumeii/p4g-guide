@@ -1,0 +1,44 @@
+{
+  "name": "p4g-guide",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "biome check --apply ./src"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.0.18",
+    "@mantine/carousel": "^7.9.1",
+    "@mantine/core": "^7.9.1",
+    "@mantine/dates": "^7.9.1",
+    "@mantine/hooks": "^7.9.1",
+    "@mantine/modals": "^7.9.1",
+    "@mantine/nprogress": "^7.9.1",
+    "@mantine/vanilla-extract": "^7.9.1",
+    "@vanilla-extract/css": "^1.15.1",
+    "dayjs": "^1.11.11",
+    "embla-carousel-react": "^8.0.4",
+    "lucide-react": "^0.378.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.23.1",
+    "remeda": "^1.61.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.7.3",
+    "@types/node": "^20.12.12",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@vanilla-extract/vite-plugin": "^4.0.9",
+    "@vitejs/plugin-react": "^4.2.1",
+    "cspell": "^8.8.1",
+    "postcss": "^8.4.38",
+    "postcss-preset-mantine": "^1.15.0",
+    "postcss-simple-vars": "^7.0.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0"
+  }
+}
