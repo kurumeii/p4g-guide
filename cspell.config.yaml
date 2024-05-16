@@ -8,6 +8,7 @@ words:
   - mantine
   - nprogress
   - remeda
+  - tabler
   - tanstack
 ignoreWords: []
 import: []

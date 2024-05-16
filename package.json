@@ -22,6 +22,7 @@
     "@vanilla-extract/css": "^1.15.1",
     "dayjs": "^1.11.11",
     "embla-carousel-react": "^8.0.4",
+    "query-string": "^9.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",

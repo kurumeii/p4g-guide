@@ -2,10 +2,12 @@ import {
   IconBrandFacebook,
   IconBrandGithub,
   IconBrandTwitter,
+  IconCalendar,
   IconChevronRight,
   IconHeart,
   IconHelp,
   IconHome,
+  IconSearch,
   IconUsers,
 } from '@tabler/icons-react'
 
@@ -18,6 +20,8 @@ const Icons = {
   GitHub: IconBrandGithub,
   Twitter: IconBrandTwitter,
   Facebook: IconBrandFacebook,
+  Calender: IconCalendar,
+  Search: IconSearch
 }
 
 export default Icons

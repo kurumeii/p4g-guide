@@ -16,4 +16,9 @@ export const styles = {
     height: 80,
     width: 80,
   }),
+  footer: style({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  }),
 }
