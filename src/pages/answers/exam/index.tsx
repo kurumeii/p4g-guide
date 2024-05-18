@@ -7,7 +7,7 @@ import { Box, Container, Flex, List, Select, Text } from "@mantine/core"
 import { useDocumentTitle } from "@mantine/hooks"
 import dayjs from "dayjs"
 import type { DataTableColumn } from "mantine-datatable"
-import { useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import * as R from "remeda"
 
 const type: Record<ExamTypes, string> = {
@@ -53,7 +53,7 @@ export default function ExamPage() {
     sortedBy: "date",
     order: "asc",
   })
-  
+
   const dataSource = useMemo(() => {
     if (!filterParams?.type) {
       return []
@@ -72,6 +72,8 @@ export default function ExamPage() {
     }))
     return result ?? []
   }, [filterParams])
+
+  const [records, setRecords] = useState(dataSource)
 
   const chosenMonth = useMemo<Month[] | undefined>(() => {
     switch (filterParams?.type) {
@@ -128,13 +130,24 @@ export default function ExamPage() {
 
   useDocumentTitle(`Exam - ${TITLE}`)
 
+  useEffect(() => {
+    const data = R.pipe(
+      dataSource,
+      R.sortBy((item) =>
+        filterParams.sortedBy ? filterParams.sortedBy : item.date
+      )
+    )
+    setRecords(filterParams.order === "desc" ? data.reverse() : data)
+  }, [dataSource, filterParams.order, filterParams.sortedBy])
+
   return (
     <Container
       fluid
       pt={"md"}
+      display={"flex"}
       style={{
-        display: "flex",
         flexDirection: "column",
+        flexGrow: 1,
       }}
     >
       Stat increased:
@@ -214,18 +227,7 @@ export default function ExamPage() {
               order: status.direction,
             })
           }
-          dataSource={R.pipe(
-            dataSource?.slice(
-              (filterParams.page - 1) * filterParams.limit,
-              filterParams.page * filterParams.limit
-            ),
-            R.sortBy((item) =>
-              filterParams?.sortedBy
-                ? item[filterParams.sortedBy as keyof typeof item]
-                : item.date
-            ),
-            filterParams.order === "desc" ? R.reverse : R.identity
-          )}
+          dataSource={records}
           pagination={{
             currentPage: +filterParams.page,
             limit: +filterParams.limit,
