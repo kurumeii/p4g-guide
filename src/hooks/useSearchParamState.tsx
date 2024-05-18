@@ -1,24 +1,30 @@
-import queryString from 'query-string'
-import { useCallback, useMemo } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import * as R from 'remeda'
+import queryString from "query-string"
+import { useSearchParams } from "react-router-dom"
+import * as R from "remeda"
 
-export default function useSearchParamState<T extends Record<string, string>>(
-  defaultParams: T
+export default function useSearchParamState<T extends Record<string, any>>(
+  defaultParams?: T
 ) {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const params = useMemo(
-    () => R.merge(defaultParams, queryString.parse(searchParams.toString())),
-    [defaultParams, searchParams]
-  )
+  const setParams = (newParams?: Partial<T>) => {
+    setSearchParams(
+      (prev) => {
+        if (!newParams) return queryString.stringify({})
+        const prevParams = queryString.parse(prev.toString())
+        const mergedParams = R.merge(prevParams, newParams)
+        return queryString.stringify(mergedParams, {
+          sort: false,
+        })
+      },
+      {
+        replace: true,
+      }
+    )
+  }
 
-  const setParams = useCallback(
-    (newParams: Partial<T>) => {
-      setSearchParams(queryString.stringify(R.merge(params, newParams)))
-    },
-    [params, setSearchParams]
-  )
-
-  return [params, setParams] as const
+  return [
+    R.merge(defaultParams, queryString.parse(searchParams.toString())) as T,
+    setParams,
+  ] as const
 }

@@ -1,14 +1,14 @@
-import { themeVars } from '@/configs/custom-theme/theme'
-import { style } from '@vanilla-extract/css'
+import { themeVars } from "@/configs/custom-theme/theme"
+import { style } from "@vanilla-extract/css"
 
 export const styles = {
   logoContainer: style({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    '@media': {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    "@media": {
       [`screen and (max-width: ${themeVars.breakpoints.lg})`]: {
-        justifyContent: 'space-between',
+        justifyContent: "space-between",
       },
     },
   }),
@@ -17,8 +17,8 @@ export const styles = {
     width: 80,
   }),
   footer: style({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-around",
   }),
 }

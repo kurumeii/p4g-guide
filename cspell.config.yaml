@@ -3,12 +3,21 @@ ignorePaths: []
 dictionaryDefinitions: []
 dictionaries: []
 words:
+  - clsx
+  - datatable
+  - excercise
+  - fira
   - fontsource
+  - heikin
   - kurumeii
   - mantine
+  - Marineris
+  - Natsume
   - nprogress
   - remeda
+  - Soseki
   - tabler
   - tanstack
+  - Valles
 ignoreWords: []
 import: []
