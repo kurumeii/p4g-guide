@@ -3,21 +3,38 @@ ignorePaths: []
 dictionaryDefinitions: []
 dictionaries: []
 words:
+  - biomejs
+  - brainfreeze
   - clsx
   - datatable
+  - dori
   - excercise
   - fira
   - fontsource
+  - Gakumon
+  - Ganglioneuralgia
+  - Heian
   - heikin
+  - kagami
+  - kanko
+  - kigo
   - kurumeii
   - mantine
   - Marineris
+  - Mochi
+  - Namib
   - Natsume
   - nprogress
+  - Ojisan
   - remeda
   - Soseki
+  - Sphenopalatine
+  - Susume
   - tabler
   - tanstack
+  - Toso
   - Valles
+  - Wasan
+  - Welwitschia
 ignoreWords: []
 import: []

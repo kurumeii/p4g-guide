@@ -118,7 +118,7 @@ export default function MainLayout() {
       <AppShell.Navbar p="md">
         <AppShell.Section>{sideBarContents.map(renderTree)}</AppShell.Section>
       </AppShell.Navbar>
-      <AppShell.Main display={'flex'}>
+      <AppShell.Main display={"flex"} mah={"100vh"}>
         <Outlet />
         <FloatingButton
           mounted={scroll.y >= 350}

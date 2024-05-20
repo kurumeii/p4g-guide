@@ -12,4 +12,19 @@ export const LINKS = {
   facebook: "https://www.facebook.com/profile.php?id=61555302790742",
 }
 
-export const TABLE_PAGE_SIZES = [5, 10, 20, 50, 100]
+export const TABLE_PAGE_SIZES = [5, 10, 20, 50, 100] as const
+
+export const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+] as const

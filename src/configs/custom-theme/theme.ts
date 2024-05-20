@@ -7,7 +7,7 @@ import { themeToVars } from "@mantine/vanilla-extract"
 export const theme = createTheme({
   fontFamily: "Inter Variable, sans-serif",
   fontFamilyMonospace: "Fira Code, monospace",
-  defaultRadius: "md",
+  defaultRadius: "sm",
   shadows: {
     xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
     sm: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",

@@ -1,14 +1,17 @@
+import Icons from "@/components/icons"
 import Datatable from "@/components/ui/table"
-import { Stats, TABLE_PAGE_SIZES, TITLE } from "@/configs/constants"
-import { Exams } from "@/database/exam/exam"
+import { type MONTHS, type TABLE_PAGE_SIZES, TITLE } from "@/configs/constants"
+import { themeVars } from "@/configs/custom-theme/theme"
+import { EXAMS } from "@/database/exam/exam"
 import useSearchParamState from "@/hooks/useSearchParamState"
-import type { ExamTypes } from "@/types"
-import { Box, Container, Flex, List, Select, Text } from "@mantine/core"
-import { useDocumentTitle } from "@mantine/hooks"
+import type { ExamReturnType, ExamTypes } from "@/types"
+import { Box, Container, Flex, Select, Text, TextInput } from "@mantine/core"
+import { useDebouncedValue, useDocumentTitle } from "@mantine/hooks"
 import dayjs from "dayjs"
 import type { DataTableColumn } from "mantine-datatable"
 import { useEffect, useMemo, useState } from "react"
 import * as R from "remeda"
+import { classes } from "./index.css"
 
 const type: Record<ExamTypes, string> = {
   popQuiz: "Pop Quiz",
@@ -17,42 +20,31 @@ const type: Record<ExamTypes, string> = {
   advanced: "Advanced",
 }
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-] as const
-
 type AnswerType = keyof typeof type
-type Month = (typeof months)[number]
+type Month = (typeof MONTHS)[number]
 
 type Filter = {
+  q?: string
   month?: Month
   type?: AnswerType
   page: number
-  limit: number
+  limit: (typeof TABLE_PAGE_SIZES)[number]
   sortedBy?: string
   order?: "asc" | "desc"
 }
 
 export default function ExamPage() {
   const [filterParams, setFilterParams] = useSearchParamState<Filter>({
+    q: undefined,
     month: undefined,
     type: undefined,
     page: 1,
-    limit: TABLE_PAGE_SIZES[0],
+    limit: 10,
     sortedBy: "date",
     order: "asc",
   })
+  const [searchValue] = useDebouncedValue(filterParams.q, 500)
+  const [selectedRecords, setSelectedRecords] = useState<ExamReturnType[]>([])
 
   const dataSource = useMemo(() => {
     if (!filterParams?.type) {
@@ -60,17 +52,18 @@ export default function ExamPage() {
     }
 
     const exams = filterParams.month
-      ? Exams[filterParams.type]?.filter(
+      ? EXAMS[filterParams.type]?.filter(
           ({ date }) =>
             dayjs(date).month() === dayjs(filterParams.month, "MMMM").month()
         )
-      : Exams[filterParams.type]
+      : EXAMS[filterParams.type]
 
-    const result = exams?.map((item, idx) => ({
-      id: `items-${filterParams.type}-${item.date}-${idx}`,
-      ...item,
-    }))
-    return result ?? []
+    const result =
+      exams?.map((item, idx) => ({
+        id: `items-${filterParams.type}-${item.date}-${idx}`,
+        ...item,
+      })) ?? []
+    return result
   }, [filterParams])
 
   const [records, setRecords] = useState(dataSource)
@@ -118,27 +111,56 @@ export default function ExamPage() {
       {
         title: "Question",
         accessor: "question",
-        width: 350,
-        ellipsis: true,
+        width: "50%",
+        filtering: !R.isEmpty(searchValue),
+        filter: (
+          <TextInput
+            label="Search for a question"
+            placeholder="Type something..."
+            defaultValue={searchValue}
+            rightSection={
+              <Icons.Search color={themeVars.colors.gray[4]} stroke={1.4} />
+            }
+            onChange={(event) =>
+              setFilterParams({
+                q: event.currentTarget.value,
+              })
+            }
+          />
+        ),
       },
       {
         title: "Answer",
         accessor: "answer",
+        width: "50%",
       },
     ]
-  }, [])
+  }, [setFilterParams, searchValue])
 
   useDocumentTitle(`Exam - ${TITLE}`)
 
   useEffect(() => {
     const data = R.pipe(
-      dataSource,
-      R.sortBy((item) =>
-        filterParams.sortedBy ? filterParams.sortedBy : item.date
-      )
+      dataSource.splice(
+        (filterParams.page - 1) * filterParams.limit,
+        filterParams.limit
+      ),
+      R.filter((item) =>
+        searchValue
+          ? item.question.toLowerCase().includes(searchValue.toLowerCase())
+          : true
+      ),
+      R.sortBy((item) => filterParams.sortedBy || item.date)
     )
     setRecords(filterParams.order === "desc" ? data.reverse() : data)
-  }, [dataSource, filterParams.order, filterParams.sortedBy])
+  }, [
+    dataSource,
+    filterParams.order,
+    filterParams.sortedBy,
+    filterParams.page,
+    searchValue,
+    filterParams.limit,
+  ])
 
   return (
     <Container
@@ -150,11 +172,6 @@ export default function ExamPage() {
         flexGrow: 1,
       }}
     >
-      Stat increased:
-      <List withPadding>
-        <List.Item>{Stats.Knowledge}</List.Item>
-        <List.Item>{Stats.Expression}</List.Item>
-      </List>
       <Text fs={"italic"} pt={"md"}>
         Below is a complete list of all the correct test answers you'll need for
         every test day in Persona 4 Golden.
@@ -213,8 +230,11 @@ export default function ExamPage() {
           />
         )}
       </Flex>
-      <Box pt={"sm"} flex={1}>
+
+      <Box className={classes.tableContainer}>
         <Datatable
+          dataSource={records}
+          columns={columns}
           scrollHeight={"100%"}
           emptyText="No answer found"
           sortStatus={{
@@ -227,15 +247,21 @@ export default function ExamPage() {
               order: status.direction,
             })
           }
-          dataSource={records}
+          hasPagination
           pagination={{
             currentPage: +filterParams.page,
             limit: +filterParams.limit,
             totalPages: dataSource ? dataSource.length : 0,
             onPageChange: (page) => setFilterParams({ page: +page }),
-            onLimitChange: (limit) => setFilterParams({ limit: +limit }),
+            onLimitChange: (limit) =>
+              setFilterParams({
+                limit: limit as Filter["limit"],
+                page: 1,
+              }),
           }}
-          columns={columns}
+          isSelectable
+          selectedRecords={selectedRecords}
+          onSelectedRecords={setSelectedRecords}
         />
       </Box>
     </Container>

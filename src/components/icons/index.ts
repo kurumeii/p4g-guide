@@ -11,9 +11,9 @@ import {
   IconHelp,
   IconHome,
   IconSearch,
-  IconSortDescending,
+  IconSortAscending,
   IconTrash,
-  IconUsers,
+  IconUsers
 } from "@tabler/icons-react"
 
 const Icons = {
@@ -30,8 +30,8 @@ const Icons = {
   Calender: IconCalendar,
   Search: IconSearch,
   Clear: IconTrash,
-  Sorted: IconSortDescending,
-  Unsorted: IconArrowsSort
+  Sorted: IconSortAscending,
+  Unsorted: IconArrowsSort,
 }
 
 export default Icons
