@@ -13,7 +13,7 @@ import {
   IconSearch,
   IconSortAscending,
   IconTrash,
-  IconUsers
+  IconUsers,
 } from "@tabler/icons-react"
 
 const Icons = {

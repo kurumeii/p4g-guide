@@ -1,12 +1,13 @@
 import Icons from "@/components/icons"
 import Datatable from "@/components/ui/table"
-import { type MONTHS, type TABLE_PAGE_SIZES, TITLE } from "@/configs/constants"
+import type { MONTHS, TABLE_PAGE_SIZES } from "@/configs/constants"
 import { themeVars } from "@/configs/custom-theme/theme"
 import { EXAMS } from "@/database/exam/exam"
 import useSearchParamState from "@/hooks/useSearchParamState"
+import useTitle from "@/hooks/useTitle"
 import type { ExamReturnType, ExamTypes } from "@/types"
 import { Box, Container, Flex, Select, Text, TextInput } from "@mantine/core"
-import { useDebouncedValue, useDocumentTitle } from "@mantine/hooks"
+import { useDebouncedValue } from "@mantine/hooks"
 import dayjs from "dayjs"
 import type { DataTableColumn } from "mantine-datatable"
 import { useEffect, useMemo, useState } from "react"
@@ -100,7 +101,7 @@ export default function ExamPage() {
     }
   }, [filterParams?.type])
 
-  const columns = useMemo<DataTableColumn[]>(() => {
+  const columns = useMemo<DataTableColumn<ExamReturnType>[]>(() => {
     return [
       {
         title: "Date",
@@ -137,7 +138,8 @@ export default function ExamPage() {
     ]
   }, [setFilterParams, searchValue])
 
-  useDocumentTitle(`Exam - ${TITLE}`)
+  //#region Effects
+  useTitle("Exams")
 
   useEffect(() => {
     const data = R.pipe(
@@ -162,6 +164,8 @@ export default function ExamPage() {
     filterParams.limit,
   ])
 
+  //#endregion
+
   return (
     <Container
       fluid
@@ -172,7 +176,7 @@ export default function ExamPage() {
         flexGrow: 1,
       }}
     >
-      <Text fs={"italic"} pt={"md"}>
+      <Text fw={"bold"} pt={"md"}>
         Below is a complete list of all the correct test answers you'll need for
         every test day in Persona 4 Golden.
       </Text>
@@ -233,6 +237,7 @@ export default function ExamPage() {
 
       <Box className={classes.tableContainer}>
         <Datatable
+          name="exams"
           dataSource={records}
           columns={columns}
           scrollHeight={"100%"}

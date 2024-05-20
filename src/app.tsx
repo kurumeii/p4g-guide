@@ -16,7 +16,11 @@ dayjs.extend(customParseFormat)
 
 ReactDOM.createRoot(document.getElementById("root-app") as HTMLElement).render(
   <StrictMode>
-    <MantineProvider theme={theme} classNamesPrefix="p4g">
+    <MantineProvider
+      defaultColorScheme="auto"
+      theme={theme}
+      classNamesPrefix="p4g"
+    >
       <NavigationProgress />
       <RouterProvider router={router} />
     </MantineProvider>

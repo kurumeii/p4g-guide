@@ -1,5 +1,6 @@
 import MainLayout from "@/components/layouts"
 import ExamPage from "@/pages/answers/exam"
+import QuestPage from "@/pages/answers/quest"
 import IntroductionPage from "@/pages/introduction"
 import NothingFoundPage from "@/pages/not-found"
 import { Navigate, createBrowserRouter } from "react-router-dom"
@@ -30,7 +31,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "quests",
-            element: <div>Quests</div>,
+            element: <QuestPage />,
           },
           {
             path: "boxed-lunches",

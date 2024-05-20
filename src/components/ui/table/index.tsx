@@ -1,51 +1,18 @@
 import Icons from "@/components/icons"
 import { TABLE_PAGE_SIZES } from "@/configs/constants"
+import type { CustomDatatableProps } from "@/types"
 import { Tooltip } from "@mantine/core"
 import {
-  type DataTableColumn,
-  type DataTableSortStatus,
   DataTable as MantineDataTable,
+  useDataTableColumns,
 } from "mantine-datatable"
 
-type Pagination = {
-  currentPage: number
-  totalPages: number
-  limit: number
-  onPageChange: (page: number | string) => void
-  onLimitChange: (limit: number | string) => void
-}
-
-export type CustomDatatableProps<T> = {
-  scrollHeight?: string | number
-  emptyText?: string
-  dataSource?: T[]
-  columns: DataTableColumn<T>[]
-  sortStatus?: DataTableSortStatus<T>
-  onSortChange?: (status: DataTableSortStatus<T>) => void
-} & (
-  | {
-      hasPagination: true
-      pagination: Pagination
-    }
-  | {
-      hasPagination?: false
-      pagination?: never
-    }
-) &
-  (
-    | {
-        isSelectable: true
-        selectedRecords: T[]
-        onSelectedRecords: (records: T[]) => void
-      }
-    | {
-        isSelectable?: false
-        selectedRecords?: never
-        onSelectedRecords?: never
-      }
-  )
-
 export default function Datatable<T>(props: CustomDatatableProps<T>) {
+  const tableKey = `p4g-table-columns${props.name}`
+  const dataTableColumns = useDataTableColumns<T>({  
+    key: tableKey,
+    columns: props.columns
+  })
   return (
     <MantineDataTable
       striped
@@ -56,7 +23,7 @@ export default function Datatable<T>(props: CustomDatatableProps<T>) {
       minHeight={props.scrollHeight ?? 300}
       noRecordsText={props.emptyText}
       records={props.dataSource}
-      columns={props.columns}
+      columns={dataTableColumns.effectiveColumns}
       sortIcons={{
         sorted: (
           <Tooltip
@@ -71,6 +38,7 @@ export default function Datatable<T>(props: CustomDatatableProps<T>) {
       }}
       sortStatus={props.sortStatus}
       onSortStatusChange={props.onSortChange}
+      storeColumnsKey={tableKey}
       {...(props.isSelectable && {
         selectedRecords: props.selectedRecords,
         onSelectedRecordsChange: props.onSelectedRecords,
@@ -89,6 +57,9 @@ export default function Datatable<T>(props: CustomDatatableProps<T>) {
           props.pagination?.onLimitChange(Number(limit)),
         paginationText: ({ from, to, totalRecords }) =>
           `Showing ${from} to ${to} of ${totalRecords} records`,
+      })}
+      {...(props.canExpand && {
+        rowExpansion: props.rowExpansion,
       })}
     />
   )
