@@ -14,9 +14,7 @@ export default function useSearchParamState<T extends Record<string, any>>(
           if (!newParams) return queryString.stringify({})
           const prevParams = queryString.parse(prev.toString())
           const mergedParams = R.merge(prevParams, newParams)
-          return queryString.stringify(mergedParams, {
-            sort: false,
-          })
+          return queryString.stringify(mergedParams)
         },
         {
           replace: true,
@@ -31,5 +29,6 @@ export default function useSearchParamState<T extends Record<string, any>>(
       R.merge(defaultParams, queryString.parse(searchParams.toString())) as T,
     [defaultParams, searchParams]
   )
+
   return [params, setParams] as const
 }

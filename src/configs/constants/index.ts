@@ -28,3 +28,7 @@ export const MONTHS = [
   "November",
   "December",
 ] as const
+
+export const TABLE_KEYS = {
+  QUESTS: "p4g-table-quests",
+}

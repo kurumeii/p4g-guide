@@ -1,20 +1,26 @@
 import {
   IconArrowsSort,
+  IconBookmark,
+  IconBookmarkOff,
   IconBrandFacebook,
   IconBrandGithub,
   IconBrandTwitter,
   IconCalendar,
+  IconCheck,
   IconChevronLeft,
   IconChevronRight,
   IconChevronUp,
   IconHeart,
   IconHelp,
   IconHome,
+  IconMaximize,
+  IconMinimize,
   IconSearch,
+  IconSettings,
   IconSortAscending,
   IconTrash,
-  IconUsers,
-} from "@tabler/icons-react"
+  IconUsers
+} from '@tabler/icons-react'
 
 const Icons = {
   HomePage: IconHome,
@@ -32,6 +38,12 @@ const Icons = {
   Clear: IconTrash,
   Sorted: IconSortAscending,
   Unsorted: IconArrowsSort,
+  Marked: IconBookmark,
+  Unmarked: IconBookmarkOff,
+  Settings: IconSettings,
+  Fullscreen: IconMaximize,
+  ExitFullscreen: IconMinimize,
+  Check: IconCheck,
 }
 
 export default Icons

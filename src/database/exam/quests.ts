@@ -191,4 +191,41 @@ export const QUESTS: QuestReturnType[] = [
     solution:
       ' The quest giver wants you to give out his tissues to everyone in the immediate area. Do this and return to him.',
   },
+  {
+    'quest-name': 'Please Feed the Cat',
+    'date-available': '6/3 (Must have completed Quest 18)',
+    location: 'Avid Reader in the South Shopping District',
+    reward: 'The Punk Way Book',
+    solution: 'Feed the cat on the Samegawa Flood Plain',
+  },
+  {
+    'quest-name': 'Feed the Cat',
+    'date-available': '6/3 (After Quest 20)',
+    location: 'Samegawa Flood Plain',
+    reward: '1x Heal Jelly',
+    solution: 'Feed the cat on the Samegawa Flood Plain',
+  },
+  {
+    'quest-name': 'Cat Needs Food Badly',
+    'date-available': '6/3 (After Quest 21)',
+    location: 'Samegawa Flood Plain',
+    reward: '1x Soma',
+    solution: 'Feed the cat 7 times.',
+  },
+  {
+    'quest-name': 'Acquire an Old Key',
+    'date-available': '6/5',
+    location: 'Samegawa Flood Plain',
+    reward: 'Knowledge & Courage stats raised',
+    solution:
+      'The item you need is dropped by the Bribed Fuzz enemy in the first 2 floors of the Steamy Bathhouse dungeon.',
+  },
+  {
+    'quest-name': 'Acquire Coal',
+    'date-available': '6/5',
+    location: 'Northern Shopping District',
+    reward: '15.000 yen',
+    solution:
+      'tem required is dropped by the Selfish Basalt enemy around the Steamy Bathhouse dungeon 6F',
+  },
 ]

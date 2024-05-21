@@ -6,13 +6,12 @@ import { EXAMS } from "@/database/exam/exam"
 import useSearchParamState from "@/hooks/useSearchParamState"
 import useTitle from "@/hooks/useTitle"
 import type { ExamReturnType, ExamTypes } from "@/types"
-import { Box, Container, Flex, Select, Text, TextInput } from "@mantine/core"
+import { Container, Flex, Select, Text, TextInput } from "@mantine/core"
 import { useDebouncedValue } from "@mantine/hooks"
 import dayjs from "dayjs"
 import type { DataTableColumn } from "mantine-datatable"
 import { useEffect, useMemo, useState } from "react"
 import * as R from "remeda"
-import { classes } from "./index.css"
 
 const type: Record<ExamTypes, string> = {
   popQuiz: "Pop Quiz",
@@ -235,40 +234,37 @@ export default function ExamPage() {
         )}
       </Flex>
 
-      <Box className={classes.tableContainer}>
-        <Datatable
-          name="exams"
-          dataSource={records}
-          columns={columns}
-          scrollHeight={"100%"}
-          emptyText="No answer found"
-          sortStatus={{
-            columnAccessor: filterParams.sortedBy ?? "date",
-            direction: filterParams.order ?? "asc",
-          }}
-          onSortChange={(status) =>
+      <Datatable
+        titleName="List of exams answer"
+        dataSource={records}
+        columns={columns}
+        emptyText="No answer found"
+        sortStatus={{
+          columnAccessor: filterParams.sortedBy ?? "date",
+          direction: filterParams.order ?? "asc",
+        }}
+        onSortChange={(status) =>
+          setFilterParams({
+            sortedBy: status.columnAccessor,
+            order: status.direction,
+          })
+        }
+        hasPagination
+        pagination={{
+          currentPage: +filterParams.page,
+          limit: +filterParams.limit,
+          totalPages: dataSource ? dataSource.length : 0,
+          onPageChange: (page) => setFilterParams({ page: +page }),
+          onLimitChange: (limit) =>
             setFilterParams({
-              sortedBy: status.columnAccessor,
-              order: status.direction,
-            })
-          }
-          hasPagination
-          pagination={{
-            currentPage: +filterParams.page,
-            limit: +filterParams.limit,
-            totalPages: dataSource ? dataSource.length : 0,
-            onPageChange: (page) => setFilterParams({ page: +page }),
-            onLimitChange: (limit) =>
-              setFilterParams({
-                limit: limit as Filter["limit"],
-                page: 1,
-              }),
-          }}
-          isSelectable
-          selectedRecords={selectedRecords}
-          onSelectedRecords={setSelectedRecords}
-        />
-      </Box>
+              limit: limit as Filter["limit"],
+              page: 1,
+            }),
+        }}
+        isSelectable
+        selectedRecords={selectedRecords}
+        onSelectedRecords={setSelectedRecords}
+      />
     </Container>
   )
 }
